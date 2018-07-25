@@ -32,7 +32,7 @@ public class CrimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_crime,container,false);
-        ////////////////////////////////////////////////////////////////////////////////////////////
+
         mTitleField = view.findViewById(R.id.crime_title);
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -48,11 +48,11 @@ public class CrimeFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
             }
         });
-        ////////////////////////////////////////////////////////////////////////////////////////////
+
         mDateButton = view.findViewById(R.id.crime_date);
         mDateButton.setText(mCrime.getDate().toString());
         mDateButton.setEnabled(false);
-        ////////////////////////////////////////////////////////////////////////////////////////////
+
         mSolvedCheckBox = view.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
@@ -60,7 +60,7 @@ public class CrimeFragment extends Fragment {
                 mCrime.setSolved(b);
             }
         });
-        ////////////////////////////////////////////////////////////////////////////////////////////
+
         return view;
     }
 }
