@@ -20,6 +20,7 @@ import java.util.List;
 public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private int selectedPosition;
 
     @Nullable
     @Override
@@ -45,7 +46,7 @@ public class CrimeListFragment extends Fragment {
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyItemChanged(selectedPosition);
         }
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,6 +66,7 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
+            selectedPosition=getAdapterPosition();
             Intent intent = CrimeActivity.newIntent(getActivity(),mCrime.getID());
             startActivity(intent);
         }
