@@ -9,6 +9,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +22,7 @@ public class CrimePagerActivity extends AppCompatActivity {
     private  static final String EXTRA_CRIME_ID = "labs.nyko.criminalintent.crime_id";
 
     private ViewPager mViewPager;
+    private Button mFirstRecordButton, mLastRecordButton;
     private List<Crime> mCrimes;
 
     public static Intent newIntent(Context packageContext, UUID crimeId){
@@ -34,6 +39,36 @@ public class CrimePagerActivity extends AppCompatActivity {
         UUID crimeId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
 
         mViewPager = findViewById(R.id.crime_view_pager);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                mFirstRecordButton.setEnabled(position!=0);
+                mLastRecordButton.setEnabled(position!=mCrimes.size()-1);
+            }
+
+            @Override
+            public void onPageSelected(int position) {         }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {            }
+        });
+        mFirstRecordButton = findViewById(R.id.first_item);
+        mFirstRecordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mViewPager.setCurrentItem(0);
+
+            }
+        });
+
+        mLastRecordButton = findViewById(R.id.last_item);
+        mLastRecordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mViewPager.setCurrentItem(mCrimes.size()-1);
+
+            }
+        });
 
         mCrimes = CrimeLab.get(this).getCrimes();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -41,7 +76,9 @@ public class CrimePagerActivity extends AppCompatActivity {
             @Override
             public Fragment getItem(int position) {
                 Crime crime = mCrimes.get(position);
+
                 return CrimeFragment.newInstance(crime.getID());
+
             }
 
             @Override
@@ -55,6 +92,10 @@ public class CrimePagerActivity extends AppCompatActivity {
                 mViewPager.setCurrentItem(i);
                 break;
             }
+
+
         }
     }
+
+
 }
